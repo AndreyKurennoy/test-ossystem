@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use SoapBox\Formatter\Formatter;
 
 class FileController extends Controller
 {
@@ -13,7 +14,9 @@ class FileController extends Controller
      */
     public function index()
     {
-        //
+
+
+        return view('welcome');
     }
 
     /**
@@ -34,7 +37,12 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+//        echo dd($request->file());
+        //file extension!
+//        echo dd(\File::extension($request->file('file')->getClientOriginalName()));
+        $destinationPath = public_path() . '/uploads/test';
+        $request->file('file')->move($destinationPath, $request->file('file')->getClientOriginalName());
+        dd($destinationPath);
     }
 
     /**
