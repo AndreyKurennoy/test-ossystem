@@ -26,7 +26,7 @@
 <script>
     $(".addbtn").click(function(){
         var data = new FormData($("#upload_form")[0]);
-        console.log(data);
+//        console.log(data);
         $.ajax({
             url:'file',
             data :new FormData($("#upload_form")[0]),

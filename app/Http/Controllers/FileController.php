@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use SoapBox\Formatter\Formatter;
-
+use Illuminate\Support\Facades\Storage;
 class FileController extends Controller
 {
     /**
@@ -37,12 +38,41 @@ class FileController extends Controller
      */
     public function store(Request $request)
     {
-//        echo dd($request->file());
-        //file extension!
-//        echo dd(\File::extension($request->file('file')->getClientOriginalName()));
-        $destinationPath = public_path() . '/uploads/test';
-        $request->file('file')->move($destinationPath, $request->file('file')->getClientOriginalName());
-        dd($destinationPath);
+
+        $destinationPath = public_path('/images');
+
+//        $request->file('file')->move($destinationPath, $filename);
+
+//        $full_file_name =  $destinationPath . '/' . $filename;
+//        $file = Storage::get($filename);
+
+
+
+//        $f = Storage::disk('local');
+//        $files = $f->allFiles();
+//        $contents = Storage::get('photo_2017-03-23_13-54-37.jpg');
+//        $url = Storage::disk('public')->get($filename);
+//        echo asset($url);
+//        dd($url);
+//        return dd( $response = Response::make($full_file_name, 200));
+
+        $filename = $request->file('file')->getClientOriginalName();
+        $file = $request->file('file');
+        Storage::disk('public')->put($filename,File::get($file), 'public');
+        $test = Storage::disk('public')->url($filename);
+//        $test = Storage::disk('public')->publicUrl($filename);
+        $test = Storage::url($filename);
+//        $url = Storage::disk('public')->get($filename);
+//        $path = $request->file('file')->store('public');
+        echo asset($test);
+        dd($test);
+//        $formatter = Formatter::make($url, Formatter::XML)->toJson();
+//        header('Content-Disposition: attachment; filename="test.json"');
+//        header("Cache-control: private");
+//        header('Content-Type: application/json');
+//        header("Content-transfer-encoding: binary\n");
+//        return response()->download();
+//        echo '<pre>'; print_r($formatter);echo '</pre>';
     }
 
     /**
